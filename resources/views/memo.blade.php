@@ -8,7 +8,11 @@
   </head>
   <body>
     <div class="container">
-      <h1>日時(1時間前)：{{ $oneHourAgo }}<br> メモアプリ</h1>  
+      <h1>
+        日時(1時間前)：{{ $dates['oneHourAgo'] }}<br>
+        今月月末：{{ $dates['endOfMonth']}}<br>
+        来月月初：{{ $dates['startOfNextMonth']}}<br>
+        メモアプリ</h1>  
       <div class="memo-input">
         <form action="{{ route('memo.store') }}" method="POST">
           @csrf
@@ -29,6 +33,5 @@
         @endforeach
       </ul>
     </div>
-    <script src="{{ asset('js/memo.js') }}"></script>
   </body>
 </html>

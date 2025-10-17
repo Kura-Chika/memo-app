@@ -9,8 +9,8 @@ class MemoController extends Controller
 {
     public function index(){
         $memos = Memo::orderBy('created_at', 'desc')->get(); //メモ一覧取得
-        $oneHourAgo = Memo::getOneHourAgo(); //現在日時の1時間前を取得
-        return view('memo', compact('memos','oneHourAgo'));
+        $dates = Memo::getDateTimes(); //日時情報をモデルから取得
+        return view('memo', compact('memos','dates')); //Bladeに渡す
     }
 
     public function store(Request $request){
