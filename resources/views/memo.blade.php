@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="container">
-      <h1>メモアプリ</h1>  
+      <h1>日時(1時間前)：{{ $oneHourAgo }}<br> メモアプリ</h1>  
       <div class="memo-input">
         <form action="{{ route('memo.store') }}" method="POST">
           @csrf

@@ -9,5 +9,11 @@ class Memo extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['content'];    
+    protected $fillable = ['content'];
+
+    public static function getOneHourAgo(){
+        $oneHourAgo = new \DateTime();
+        $oneHourAgo->modify('-1 hour');
+        return $oneHourAgo->format('Y-m-d H:i:s');
+    }
 }

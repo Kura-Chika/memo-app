@@ -8,8 +8,9 @@ use App\Models\Memo;
 class MemoController extends Controller
 {
     public function index(){
-        $memos = Memo::orderBy('created_at', 'desc')->get();
-        return view('memo', compact('memos'));
+        $memos = Memo::orderBy('created_at', 'desc')->get(); //メモ一覧取得
+        $oneHourAgo = Memo::getOneHourAgo(); //現在日時の1時間前を取得
+        return view('memo', compact('memos','oneHourAgo'));
     }
 
     public function store(Request $request){
