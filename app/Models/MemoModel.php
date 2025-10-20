@@ -8,6 +8,8 @@ use Carbon\Carbon;
 
 class MemoModel extends Model
 {
+    protected $fillable = ['content'];
+    
     /**
      * 現在時刻を基準にした日時情報を種別によって返す
      * 

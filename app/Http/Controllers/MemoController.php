@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MemoModel;
+use Illuminate\Http\JsonResponse;
 
 class MemoController extends Controller
 {
@@ -21,11 +22,16 @@ class MemoController extends Controller
 
     /**
      * 新しいメモの保存
+     * TypeScriptからfetchでPOSTされる
      */
-    public function store(Request $request){
+    public function store(Request $request): JsonResponse{
         $request->validate(['content' => 'required']); //メモ入力フォームが空でないかのチェック
-        MemoModel::create(['content' => $request->content]); //新しいメモを追加
-        return redirect()->back(); //登録後元のページに戻る
+        $memo = MemoModel::create(['content' => $request->content]); //新しいメモを追加
+        
+        return response()->json([
+            'message' => '登録成功',
+            'memo' => $memo
+        ]);
     }
 
     /**
@@ -33,12 +39,18 @@ class MemoController extends Controller
      * 
      * @param int $id メモのid
      */
-    public function destroy($id){
+    public function destroy($id): JsonResponse{
         $memo = MemoModel::find($id); //idが一致するメモを取得
-        if ($memo){
-            $memo->delete(); //idが一致するメモを削除
+        if (!$memo){
+            return response()->json([
+                'message' => '該当のメモが見つかりません'
+            ],404);
         }
-        return redirect()->back(); //登録後元のページに戻る
-    }
 
+        $memo->delete(); //idが一致するメモを削除
+        return response()->json([
+            'message' => '削除成功',
+            'id' => $id
+        ]);
+    }
 }
