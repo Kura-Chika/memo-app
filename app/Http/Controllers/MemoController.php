@@ -15,8 +15,8 @@ class MemoController extends Controller
      */
     public function index(){
         $memos = MemoModel::orderBy('created_at', 'desc')->get(); //メモ一覧取得
-        $dates = MemoModel::getDateTimes(); //日時情報をモデルから取得
-        return view('memo', compact('memos','dates')); //memosとdatesのデータをBladeに渡す
+        $dates = MemoModel::getDateTimes(3); //対象の日時情報をMemoModelから取得
+        return view('memo', compact('memos','dates')); //memosとdateのデータをBladeに渡す
     }
 
     /**
