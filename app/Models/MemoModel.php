@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
-class Memo extends Model
+class MemoModel extends Model
 {
-    use HasFactory;
+    /**
+     * 現在時刻を基準にした日時情報 
+     * @return array 日時情報
+     */
     
-    protected $fillable = ['content'];
-
     public static function getDateTimes(){
 
         $now = Carbon::now();
@@ -21,4 +22,6 @@ class Memo extends Model
             'startOfNextMonth' => $now->copy()->addMonthNoOverflow()->startOfMonth()->format('Y-m-d'), //来月月初
         ];
     }
+
+    protected $table = 'memos'; //Model名変更のため記述
 }
