@@ -13,7 +13,7 @@ class MemoApiController extends Controller
      * 新しいメモの保存
      * TypeScriptからfetchでPOSTされる
      */
-    public function store(Request $request): JsonResponse{
+    public function saveMemoAction(Request $request): JsonResponse{
         $request->validate(['content' => 'required']); //メモ入力フォームが空でないかのチェック
         $memo = MemoModel::create(['content' => $request->content]); //新しいメモを追加
         
@@ -28,7 +28,7 @@ class MemoApiController extends Controller
      * 
      * @param int $id メモのid
      */
-    public function destroy($id): JsonResponse{
+    public function deleteMemoAction($id): JsonResponse{
         $memo = MemoModel::find($id); //idが一致するメモを取得
         if (!$memo){
             return response()->json([
