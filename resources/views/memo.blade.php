@@ -19,8 +19,10 @@
       <h2>メモ一覧</h2>
       <ul id="memoList">
         @foreach ($memos as $memo)
-          <li>{{ $memo->content }}
-            <button data-id="{{ $memo->id }}" type="submit" class="delete-btn">削除</button>
+          <li data-id="{{ $memo->id }}">
+            <span class="memo-content">{{ $memo->content }}</span>
+            <button type="submit" class="edit-btn">編集</button>
+            <button type="submit" class="delete-btn">削除</button>
           </li>
         @endforeach
       </ul>

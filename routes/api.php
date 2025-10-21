@@ -17,3 +17,4 @@ use App\Http\Controllers\Api\MemoApiController;
 
 Route::post('/', [MemoApiController::class, 'saveMemoAction'])->name('memo.store');
 Route::delete('/{id}', [MemoApiController::class, 'deleteMemoAction'])->name('memo.destroy');
+Route::put('/{id}', [MemoApiController::class, 'updateMemoAction'])->name('memo.update');

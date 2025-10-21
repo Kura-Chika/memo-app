@@ -42,4 +42,22 @@ class MemoApiController extends Controller
             'id' => $id
         ]);
     }
+
+    public function updateMemoAction(Request $request, $id){
+        $request->validate(['content' => 'required']);
+        $memo = MemoModel::find($id);
+        if (!$memo){
+            return response()->json([
+                'message' => '該当のメモが見つかりません'
+            ],404);
+        }
+
+        $memo->content = $request->content;
+        $memo->save();
+
+        return response()->json([
+            'message' => '更新成功',
+            'memo' => $memo
+        ]);
+    }
 }
