@@ -1,25 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MemoModel;
 use Illuminate\Http\JsonResponse;
 
-class MemoController extends Controller
+class MemoApiController extends Controller
 {
-    /**
-     * メモ一覧画面の表示
-     * 
-     * メモデータを作成日時の降順で取得
-     * 日時情報をMemoModelから取得
-     */
-    public function index(){
-        $memos = MemoModel::orderBy('created_at', 'desc')->get(); //メモ一覧取得
-        $dates = MemoModel::getDateTimes(3); //対象の日時情報をMemoModelから取得
-        return view('memo', compact('memos','dates')); //memosとdateのデータをBladeに渡す
-    }
-
     /**
      * 新しいメモの保存
      * TypeScriptからfetchでPOSTされる

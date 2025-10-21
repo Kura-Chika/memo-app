@@ -1,5 +1,5 @@
 async function createMemo(content: string) { //メモを登録
-    const response = await fetch(`/`, {
+    const response = await fetch(`/api`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ async function createMemo(content: string) { //メモを登録
 }
 
 async function deleteMemo(id: number) { //メモを削除
-    const response = await fetch(`/${id}`, { //文字列と認識されるようバックフォート(``)使用
+    const response = await fetch(`/api/${id}`, { //文字列と認識されるようバックフォート(``)使用
         method: 'DELETE',
         headers: {
             'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]')as HTMLMetaElement).content

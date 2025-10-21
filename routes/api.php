@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\MemoApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/', [MemoApiController::class, 'store'])->name('memo.store');
+Route::delete('/{id}', [MemoApiController::class, 'destroy'])->name('memo.destroy');

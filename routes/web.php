@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MemoController;
+use App\Http\Controllers\Web\MemoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,5 +16,3 @@ use App\Http\Controllers\MemoController;
 
 
 Route::get('/', [MemoController::class, 'index'])->name('memo.index');
-Route::post('/', [MemoController::class, 'store'])->name('memo.store');
-Route::delete('/{id}', [MemoController::class, 'destroy'])->name('memo.destroy');
