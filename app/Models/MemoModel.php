@@ -15,7 +15,7 @@ class MemoModel extends Model
     /**
      * 現在時刻を基準にした日時情報を種別によって返す
      * 
-     * @param int $type 1=今月末の日付, 2=現在時刻の2時間前, 3=来月末の日付
+     * @param string $type 1=今月末の日付, 2=現在時刻の2時間前, 3=来月末の日付
      */
 
     public static function getDateTimes(string $type){

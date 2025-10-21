@@ -84,7 +84,8 @@ saveBtn.addEventListener('click', (e) => {
 document.querySelectorAll('.delete-btn').forEach((button) => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
-      const id = (button as HTMLButtonElement).dataset.id; // data-id属性から取得
+      const li = (button as HTMLButtonElement).closest('li');
+      const id = li?.dataset.id;
       if (id && confirm("このメモを削除しますか？")) {
           deleteMemo(Number(id));
       }
