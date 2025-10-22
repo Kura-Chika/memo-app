@@ -14,21 +14,21 @@ class MemoController extends Controller
      * 
      * @return \Illuminate\View\View
      * 
-     * メモデータを作成日時の降順で取得
+     * 現在日時を基準にTimeStamp生成
      * MemoModelから日時種別情報を取得
-     * Blade(memo.blade.php)へデータを渡す
+     * メモ一覧を取得しBlade(memo.blade.php)へ渡す
      */
     public function index()
     {
         //============================
         //➀現在日時の生成
         //============================
-        $Timestamp = Carbon::now()->format('Y-m-d H:i:s');
+        $timestamp = Carbon::now()->format('Y-m-d H:i:s');
 
         //==========================================
-        //➁MemoModelにTimeStampを渡して日時情報の取得
+        //➁MemoModelにTimeStampを渡して日時種別の取得
         //==========================================
-        $dates = MemoModel::getDateTimes(MemoConst::DATE_END_OF_NEXT_MONTH, $Timestamp);
+        $dates = MemoModel::getDateTimes(MemoConst::DATE_END_OF_NEXT_MONTH, $timestamp);
 
         //============================
         //➂メモ一覧の取得
