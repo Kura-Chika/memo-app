@@ -13,16 +13,26 @@ class MemoModel extends Model
     protected $table = 'memos'; //Model名変更のため記述
 
     /**
-     * 現在時刻を基準にした日時情報を日時種別によって返す
+     * 日時情報の取得処理
+     * 
+     * 呼び元から渡されたTimeStampを基準に日時種別に応じて返す
      * 
      * @param string $type 日時種別
      * @param string $timestamp 呼び元で生成したタイムスタンプ
      * @return string 日時(YYYY-MM-DD HH:mm:ss形式)
      */
 
-    public static function getDateTimes($type, $timestamp = null){
+    public static function getDateTimes($type, $timestamp)
+    {
+        //=================================
+        //➀呼び元から渡されたTimeStampの取得
+        //=================================
 
-        $now = $timestamp ? Carbon::parse($timestamp) : Carbon::now(); //呼び元から渡されたTimeStampを使用
+        $now = Carbon::parse($timestamp); 
+        
+        //============================
+        //➁日時種別の分岐処理
+        //============================
         switch($type){
             case MemoConst::DATE_END_OF_THIS_MONTH: //今月末
                 return $now->copy()->endOfMonth()->format('Y-m-d H:i:s'); 
