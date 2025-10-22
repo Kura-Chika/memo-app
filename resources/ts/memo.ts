@@ -12,7 +12,7 @@ async function createMemo(content: string) {
         body: JSON.stringify({ content })
     });
 
-    if (!response.ok) {
+    if (response.ok === false) {
         console.error('保存中にエラーが発生しました');
         return;
     }
@@ -34,7 +34,7 @@ async function deleteMemo(id: number) {
         }
     });
 
-    if (!response.ok) {
+    if (response.ok === false) {
         console.error('削除中にエラーが発生しました');
         return;
     }
@@ -56,7 +56,7 @@ async function updateMemo(id: number, content: string) {
         body: JSON.stringify({ content }),
     });
 
-    if (!response.ok) {
+    if (response.ok === false) {
         console.error('更新に失敗しました');
         return;
     }
@@ -88,7 +88,7 @@ let editingId: number | null = null; // 編集中のメモIDを保持
 
 saveBtn.addEventListener('click', async(e) => {
     e.preventDefault();
-    if (!input.value)return alert("メモを入力してください");
+    if (input.value === "")return alert("メモを入力してください");
 
     await buttonClick(saveBtn, async() => {
       if (editingId) { //編集と更新
@@ -125,7 +125,7 @@ document.querySelectorAll('.edit-btn').forEach((button) => {
     button.addEventListener('click', async(e) => {
       e.preventDefault();
       const li = (button as HTMLButtonElement).closest('li');
-      if (!li) return;
+      if (li === null) return;
       const id = Number(li.dataset.id);
       const currentContent = li.querySelector('.memo-content')?.textContent ?? "";
 
