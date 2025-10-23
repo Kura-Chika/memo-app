@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\MemoRequest;
 use App\Models\MemoModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -14,22 +14,22 @@ class MemoApiController extends Controller
      * メモの新規登録処理
      * TypeScriptからfetchでPOSTされる
      * 
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\MemoRequest $request バリデーション済み
      * @return \Illuminate\Http\JsonResponse
      */
-    public function saveMemoAction(Request $request): JsonResponse
+    public function saveMemoAction(MemoRequest $request): JsonResponse
     {
-        //============================
-        //➀引数チェック(バリデーション)
-        //============================
-        $request->validate(['content' => 'required']);
-
         DB::beginTransaction(); //トランザクション開始
         try {
+            //===============================
+            //➀バリデーションされたデータの取得
+            //===============================
+            $validated = $request->validated();
+
             //============================
             //➁メモの作成処理
             //============================
-            $memo = MemoModel::create(['content' => $request->content]);
+            $memo = MemoModel::create($validated);
 
             //============================
             //➂コミット処理
@@ -77,7 +77,7 @@ class MemoApiController extends Controller
             //============================
             $memo = MemoModel::find($id);
 
-            if ($memo === false){
+            if ($memo === null){
                 return response()->json([
                     'status_code' => 404,
                     'message' => '該当のメモが見つかりません'
@@ -122,35 +122,34 @@ class MemoApiController extends Controller
 
     /**
      * 既存メモの更新処理
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\MemoRequest $request バリデーション済み
      * @param int $id メモのID
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateMemoAction(Request $request, $id): JsonResponse
+    public function updateMemoAction(MemoRequest $request, $id): JsonResponse
     {
-        //============================
-        //➀引数チェック(バリデーション)
-        //============================
-        $request->validate(['content' => 'required']);
-
         DB::beginTransaction(); //トランザクション開始
         try {
-
             //============================
-            //➁対象メモの取得
+            //➀対象メモの取得
             //============================
             $memo = MemoModel::find($id);
-            if ($memo === false){
+            if ($memo === null){
                 return response()->json([
                     'status_code' => 404,
                     'message' => '該当のメモが見つかりません'
                 ],404);
             }
+            
+            //===============================
+            //➁バリデーションされたデータの取得
+            //===============================
+            $validated = $request->validated();
 
             //============================
             //➂メモ内容の更新処理
             //============================
-            $memo->content = $request->content;
+            $memo->update($validated);
             $memo->save();
 
             //============================
