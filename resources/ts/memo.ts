@@ -18,7 +18,7 @@ async function createMemo(content: string) {
     }
 
     const data = await response.json();
-    console.log('登録成功', data);
+    console.log(data.message);
     location.reload(); //保存成功後、ページを更新
 }
 
@@ -39,7 +39,8 @@ async function deleteMemo(id: number) {
         return;
     }
 
-    console.log('削除成功');
+    const data = await response.json();
+    console.log(data.message);
     location.reload(); //削除成功後、ページを更新
 }
 
@@ -62,7 +63,7 @@ async function updateMemo(id: number, content: string) {
     }
 
     const data = await response.json();
-    console.log('更新成功', data);
+    console.log(data.message);
     location.reload(); //更新成功後、ページを更新
         
 }
@@ -82,10 +83,13 @@ async function buttonClick(button: HTMLButtonElement, callback: () => Promise<vo
 /**
  * 登録ボタン
  */
-const saveBtn = document.getElementById('saveBtn') as HTMLButtonElement;
-const input = document.getElementById('memoText') as HTMLTextAreaElement;
+const saveBtn = document.querySelector<HTMLButtonElement>('#saveBtn');
+const input = document.querySelector<HTMLTextAreaElement>('#memoText');
 let editingId: number | null = null; // 編集中のメモIDを保持
 
+if (saveBtn === null || input === null) {
+    throw new Error('必要な要素が見つかりません');
+}
 saveBtn.addEventListener('click', async(e) => {
     e.preventDefault();
     if (input.value === "")return alert("メモを入力してください");
