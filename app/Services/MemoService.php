@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Repositories\MemoRepository;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\JsonResponse;
 
 class MemoService
 {
@@ -30,31 +29,15 @@ class MemoService
             //============================
             //➁コミット処理
             //============================
-            DB::commit();
-
-            //============================
-            //➂正常レスポンス返却
-            //============================
-            return response()->json([
-                'status_code' => 200,
-                'message' => '登録成功',
-                'memo' => $memo
-            ], 200);
+            DB::commit(); 
+            return $memo;
 
         } catch (\Exception $e) {
-
             //============================
-            //➃ロールバック処理
+            //➂ロールバック処理
             //============================
             DB::rollBack();
-
-            //============================
-            //➄エラーレスポンス返却
-            //============================
-            return response()->json([
-                'status_code' => 400,
-                'message' => '登録失敗: ' . $e->getMessage()
-            ], 400);
+            throw $e;
         }
     }
 
@@ -70,10 +53,7 @@ class MemoService
             //============================
             $memo = $this->memoRepository->findById($id);
             if ($memo === null){
-                return response()->json([
-                    'status_code' => 404,
-                    'message' => '該当のメモが見つかりません'
-                ],404);
+                return null;
             }
             
             //============================
@@ -85,15 +65,7 @@ class MemoService
             //➂コミット処理
             //============================
             DB::commit();
- 
-            //============================
-            //➃正常レスポンス返却
-            //============================
-            return response()->json([
-                'status_code' => 200,
-                'message' => '更新成功',
-                'memo' => $memo
-            ], 200);
+            return $memo;
 
         } catch (\Exception $e) {
 
@@ -101,14 +73,7 @@ class MemoService
             //➄ロールバック処理
             //============================
             DB::rollBack();
-
-            //============================
-            //➅エラーレスポンス返却
-            //============================
-            return response()->json([
-                'status_code' => 400,
-                'message' => '更新失敗: ' . $e->getMessage()
-            ], 400);
+            throw $e;
         }
     }
 
@@ -125,10 +90,7 @@ class MemoService
             $memo = $this->memoRepository->findById($id);
 
             if ($memo === null){
-                return response()->json([
-                    'status_code' => 404,
-                    'message' => '該当のメモが見つかりません'
-                ],404);
+                return false;
             }
 
             //============================
@@ -140,15 +102,7 @@ class MemoService
             //➂コミット処理
             //============================
             DB::commit();
-
-            //============================
-            //➃正常レスポンス返却
-            //============================
-            return response()->json([
-                'status_code' => 200,
-                'message' => '削除成功',
-                'id' => $id
-            ], 200);
+            return true;
 
         } catch (\Exception $e) {
 
@@ -156,14 +110,7 @@ class MemoService
             //➄ロールバック処理
             //============================
             DB::rollBack();
-            
-            //============================
-            //➅エラーレスポンス返却
-            //============================
-            return response()->json([
-                'status_code' => 400,
-                'message' => '削除失敗: ' . $e->getMessage()
-            ], 400);
+            throw $e;
         }
     }
 }
